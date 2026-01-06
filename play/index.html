@@ -31,19 +31,6 @@
             margin: 0 auto;
         }
         
-        .game-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .game-title {
-            font-size: 1rem;
-            color: var(--secondary-yellow);
-            letter-spacing: 3px;
-        }
-        
         .game-container {
             position: relative;
             width: 100%;
@@ -77,7 +64,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 15px;
+            margin-bottom: 10px;
+            padding: 10px 0;
             flex-wrap: wrap;
             gap: 10px;
         }
@@ -87,6 +75,13 @@
             display: flex;
             gap: 10px;
             align-items: center;
+        }
+        
+        .game-title {
+            font-size: 1rem;
+            color: var(--secondary-yellow);
+            letter-spacing: 3px;
+            margin-left: 15px;
         }
         
         .btn-icon {
@@ -363,9 +358,23 @@
         
         <!-- GAME WRAPPER -->
         <div class="game-wrapper">
-            <div class="game-header">
-                <span class="game-title">DELTA DAWN: OPERACIÓN CARACAS</span>
-                <span class="text-gray" style="font-size: 0.8rem;">ESC = Menú</span>
+            <div class="game-controls">
+                <div class="controls-left">
+                    <a href="/" class="btn btn-secondary btn-icon">← SALIR</a>
+                    <span class="game-title">DELTA DAWN</span>
+                </div>
+                
+                <div class="controls-right">
+                    <a href="http://link.mercadopago.com.ar/operationcaracas" target="_blank" class="btn btn-donate btn-icon">
+                        💚 APOYAR
+                    </a>
+                    <button id="btn-share" class="btn btn-secondary btn-icon" onclick="showShareModal()">
+                        📤 COMPARTIR
+                    </button>
+                    <button id="btn-fullscreen" class="btn btn-primary btn-icon" onclick="toggleFullscreen()">
+                        ⛶ FULLSCREEN
+                    </button>
+                </div>
             </div>
             
             <div class="game-container">
@@ -375,24 +384,6 @@
                     allow="autoplay; fullscreen"
                     allowfullscreen
                 ></iframe>
-            </div>
-            
-            <div class="game-controls">
-                <div class="controls-left">
-                    <a href="/" class="btn btn-secondary btn-icon">← SALIR</a>
-                    <a href="http://link.mercadopago.com.ar/operationcaracas" target="_blank" class="btn btn-donate btn-icon">
-                        💚 APOYAR
-                    </a>
-                </div>
-                
-                <div class="controls-right">
-                    <button id="btn-share" class="btn btn-secondary btn-icon" onclick="showShareModal()">
-                        📤 COMPARTIR
-                    </button>
-                    <button id="btn-fullscreen" class="btn btn-primary btn-icon" onclick="toggleFullscreen()">
-                        ⛶ PANTALLA COMPLETA
-                    </button>
-                </div>
             </div>
         </div>
     </main>
