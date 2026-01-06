@@ -94,6 +94,21 @@
             font-size: 0.85rem;
         }
         
+        /* Botón de donación especial */
+        .btn-donate {
+            background: linear-gradient(135deg, #00b4e5 0%, #00a650 100%);
+            color: white;
+            border-color: #00a650;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+        }
+        
+        .btn-donate:hover {
+            background: linear-gradient(135deg, #00a650 0%, #00b4e5 100%);
+            box-shadow: 0 0 20px rgba(0, 166, 80, 0.5);
+            transform: scale(1.05);
+        }
+        
         /* Mobile Warning */
         .mobile-warning {
             display: none;
@@ -131,45 +146,164 @@
         
         .share-stats {
             background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-        }
-        
-        .share-stats .stat-row {
+            padding: 15px 20px;
+            margin: 15px 0;
             display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #333;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
         }
         
-        .share-stats .stat-row:last-child {
-            border-bottom: none;
-        }
-        
-        .share-stats .stat-label {
-            color: var(--text-gray);
+        .share-stats .stat-item {
+            text-align: center;
         }
         
         .share-stats .stat-value {
             color: var(--secondary-yellow);
+            font-size: 1.5rem;
             font-weight: bold;
+            display: block;
         }
         
-        .share-text {
-            background: #111;
-            padding: 15px;
-            font-size: 0.9rem;
-            color: var(--text-white);
-            margin: 15px 0;
-            word-break: break-all;
+        .share-stats .stat-label {
+            color: var(--text-gray);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
         }
         
-        .share-buttons {
+        /* Social Share Buttons */
+        .social-buttons {
             display: flex;
-            gap: 15px;
             justify-content: center;
-            margin-top: 20px;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 0;
+            border: 2px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        
+        .social-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* X (Twitter) */
+        .social-btn.twitter {
+            background: #000;
+            border-color: #fff;
+            color: #fff;
+        }
+        .social-btn.twitter:hover {
+            background: #1da1f2;
+            border-color: #1da1f2;
+            box-shadow: 0 0 15px rgba(29, 161, 242, 0.5);
+        }
+        
+        /* WhatsApp */
+        .social-btn.whatsapp {
+            background: #25d366;
+            border-color: #25d366;
+            color: #fff;
+        }
+        .social-btn.whatsapp:hover {
+            background: #128c7e;
+            border-color: #128c7e;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.5);
+        }
+        
+        /* Facebook */
+        .social-btn.facebook {
+            background: #1877f2;
+            border-color: #1877f2;
+            color: #fff;
+        }
+        .social-btn.facebook:hover {
+            background: #0d5bbd;
+            border-color: #0d5bbd;
+            box-shadow: 0 0 15px rgba(24, 119, 242, 0.5);
+        }
+        
+        /* Reddit */
+        .social-btn.reddit {
+            background: #ff4500;
+            border-color: #ff4500;
+            color: #fff;
+        }
+        .social-btn.reddit:hover {
+            background: #cc3700;
+            border-color: #cc3700;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.5);
+        }
+        
+        /* Copy */
+        .social-btn.copy {
+            background: #333;
+            border-color: var(--secondary-yellow);
+            color: var(--secondary-yellow);
+        }
+        .social-btn.copy:hover {
+            background: var(--secondary-yellow);
+            color: #000;
+            box-shadow: 0 0 15px var(--glow-yellow);
+        }
+        
+        .social-label {
+            font-size: 0.65rem;
+            color: var(--text-gray);
+            text-align: center;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+        
+        .social-btn-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Donate Section in Modal */
+        .donate-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+        
+        .donate-section p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .btn-donate-large {
+            background: linear-gradient(135deg, #00b4e5 0%, #00a650 100%);
+            color: white;
+            border: 3px solid #00a650;
+            padding: 15px 30px;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-donate-large:hover {
+            background: linear-gradient(135deg, #00a650 0%, #00b4e5 100%);
+            box-shadow: 0 0 25px rgba(0, 166, 80, 0.6);
+            transform: scale(1.05);
+            color: white;
+        }
+        
+        .mp-logo {
+            font-size: 1.2rem;
         }
         
         .copy-feedback {
@@ -178,10 +312,34 @@
             margin-top: 10px;
             opacity: 0;
             transition: opacity 0.3s;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px 25px;
+            border: 2px solid var(--secondary-yellow);
+            z-index: 2000;
         }
         
         .copy-feedback.show {
             opacity: 1;
+        }
+        
+        @media (max-width: 500px) {
+            .social-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+            
+            .share-stats {
+                gap: 15px;
+            }
+            
+            .share-stats .stat-value {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -222,11 +380,14 @@
             <div class="game-controls">
                 <div class="controls-left">
                     <a href="/" class="btn btn-secondary btn-icon">← SALIR</a>
+                    <a href="http://link.mercadopago.com.ar/operationcaracas" target="_blank" class="btn btn-donate btn-icon">
+                        💚 APOYAR
+                    </a>
                 </div>
                 
                 <div class="controls-right">
                     <button id="btn-share" class="btn btn-secondary btn-icon" onclick="showShareModal()">
-                        COMPARTIR
+                        📤 COMPARTIR
                     </button>
                     <button id="btn-fullscreen" class="btn btn-primary btn-icon" onclick="toggleFullscreen()">
                         ⛶ PANTALLA COMPLETA
@@ -243,38 +404,68 @@
             <h2 class="text-yellow">★ COMPARTÍ TU SCORE ★</h2>
             
             <div class="share-content">
+                <!-- Stats Display -->
                 <div class="share-stats">
-                    <div class="stat-row">
-                        <span class="stat-label">SCORE:</span>
+                    <div class="stat-item">
                         <span class="stat-value" id="share-score">--</span>
+                        <span class="stat-label">SCORE</span>
                     </div>
-                    <div class="stat-row">
-                        <span class="stat-label">TIEMPO:</span>
-                        <span class="stat-value" id="share-time">--</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">RANK:</span>
+                    <div class="stat-item">
                         <span class="stat-value" id="share-rank">--</span>
+                        <span class="stat-label">RANK</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="share-time">--</span>
+                        <span class="stat-label">TIEMPO</span>
                     </div>
                 </div>
                 
-                <div class="share-text" id="share-text">
-                    🎮 DELTA DAWN: Operación Caracas
-                    Score: -- | Rank: --
-                    ¿Podés superarlo?
-                    🔗 [URL]
+                <!-- Social Share Buttons -->
+                <div class="social-buttons">
+                    <div class="social-btn-wrapper">
+                        <a href="#" id="share-twitter" class="social-btn twitter" target="_blank" title="Compartir en X">
+                            𝕏
+                        </a>
+                        <span class="social-label">X</span>
+                    </div>
+                    
+                    <div class="social-btn-wrapper">
+                        <a href="#" id="share-whatsapp" class="social-btn whatsapp" target="_blank" title="Compartir en WhatsApp">
+                            📱
+                        </a>
+                        <span class="social-label">WHATSAPP</span>
+                    </div>
+                    
+                    <div class="social-btn-wrapper">
+                        <a href="#" id="share-facebook" class="social-btn facebook" target="_blank" title="Compartir en Facebook">
+                            f
+                        </a>
+                        <span class="social-label">FACEBOOK</span>
+                    </div>
+                    
+                    <div class="social-btn-wrapper">
+                        <a href="#" id="share-reddit" class="social-btn reddit" target="_blank" title="Compartir en Reddit">
+                            ⬆
+                        </a>
+                        <span class="social-label">REDDIT</span>
+                    </div>
+                    
+                    <div class="social-btn-wrapper">
+                        <button id="share-copy" class="social-btn copy" onclick="copyShareText()" title="Copiar al portapapeles">
+                            📋
+                        </button>
+                        <span class="social-label">COPIAR</span>
+                    </div>
                 </div>
                 
-                <div class="share-buttons">
-                    <button class="btn btn-primary btn-small" onclick="copyShareText()">
-                        COPIAR TEXTO
-                    </button>
-                    <button class="btn btn-secondary btn-small" onclick="copyLink()">
-                        COPIAR LINK
-                    </button>
+                <!-- Donate Section -->
+                <div class="donate-section">
+                    <p>¿Te gustó el juego? Apoyá el desarrollo 🎮</p>
+                    <a href="http://link.mercadopago.com.ar/operationcaracas" target="_blank" class="btn btn-donate-large">
+                        <span class="mp-logo">💚</span>
+                        DONAR CON MERCADO PAGO
+                    </a>
                 </div>
-                
-                <div id="copy-feedback" class="copy-feedback">¡Copiado!</div>
             </div>
             
             <div class="mt-20">
@@ -283,9 +474,15 @@
         </div>
     </div>
     
+    <!-- Copy Feedback Toast -->
+    <div id="copy-feedback" class="copy-feedback">✓ ¡Copiado al portapapeles!</div>
+    
     <script>
         const gameIframe = document.getElementById('game-iframe');
         const audioOverlay = document.getElementById('audio-overlay');
+        
+        // URL del juego para compartir
+        const GAME_URL = window.location.origin + '/play';
         
         // Estado del último score (se actualiza via postMessage en el futuro)
         let lastGameStats = {
@@ -346,31 +543,24 @@
         // =====================================
         function focusGame() {
             gameIframe.focus();
-            // Enviar mensaje al juego para que tome focus
             gameIframe.contentWindow.postMessage({ type: 'DD:FOCUS' }, '*');
         }
         
-        // Auto-focus al cargar
         window.addEventListener('load', () => {
             if (!autostart) {
                 setTimeout(focusGame, 500);
             }
         });
         
-        // Re-focus cuando se hace click en el contenedor
         document.querySelector('.game-container').addEventListener('click', focusGame);
         
         // =====================================
-        // POST MESSAGE LISTENER (para futuro)
+        // POST MESSAGE LISTENER
         // =====================================
         window.addEventListener('message', (event) => {
-            // Verificar origen si es necesario
-            // if (event.origin !== 'expected-origin') return;
-            
             const data = event.data;
             
             if (data && data.type === 'DD:RUN_END') {
-                // Juego terminado - actualizar stats y mostrar modal
                 lastGameStats = data.stats || lastGameStats;
                 updateShareModal();
                 showShareModal();
@@ -394,29 +584,47 @@
             focusGame();
         }
         
+        function getShareText() {
+            return `🎮 DELTA DAWN: Operación Caracas
+
+🏆 Score: ${lastGameStats.score.toLocaleString()}
+⭐ Rank: ${lastGameStats.rank}
+⏱️ Tiempo: ${lastGameStats.time}
+
+¿Podés superarlo? 👇
+${GAME_URL}`;
+        }
+        
         function updateShareModal() {
             document.getElementById('share-score').textContent = lastGameStats.score.toLocaleString();
             document.getElementById('share-time').textContent = lastGameStats.time;
             document.getElementById('share-rank').textContent = lastGameStats.rank;
             
-            const shareText = `🎮 DELTA DAWN: Operación Caracas
-📊 Score: ${lastGameStats.score.toLocaleString()} | Rank: ${lastGameStats.rank}
-⏱️ Tiempo: ${lastGameStats.time}
-¿Podés superarlo?
-🔗 ${window.location.origin}/play`;
+            const shareText = getShareText();
+            const encodedText = encodeURIComponent(shareText);
+            const encodedUrl = encodeURIComponent(GAME_URL);
             
-            document.getElementById('share-text').textContent = shareText;
+            // Twitter/X
+            document.getElementById('share-twitter').href = 
+                `https://twitter.com/intent/tweet?text=${encodedText}`;
+            
+            // WhatsApp
+            document.getElementById('share-whatsapp').href = 
+                `https://wa.me/?text=${encodedText}`;
+            
+            // Facebook
+            document.getElementById('share-facebook').href = 
+                `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+            
+            // Reddit
+            const redditTitle = encodeURIComponent(`🎮 DELTA DAWN: Operación Caracas - Score: ${lastGameStats.score.toLocaleString()}`);
+            document.getElementById('share-reddit').href = 
+                `https://www.reddit.com/submit?url=${encodedUrl}&title=${redditTitle}`;
         }
         
         function copyShareText() {
-            const text = document.getElementById('share-text').textContent;
+            const text = getShareText();
             navigator.clipboard.writeText(text).then(() => {
-                showCopyFeedback();
-            });
-        }
-        
-        function copyLink() {
-            navigator.clipboard.writeText(window.location.origin + '/play').then(() => {
                 showCopyFeedback();
             });
         }
@@ -426,21 +634,19 @@
             feedback.classList.add('show');
             setTimeout(() => {
                 feedback.classList.remove('show');
-            }, 2000);
+            }, 2500);
         }
         
         // =====================================
         // KEYBOARD SHORTCUTS
         // =====================================
         document.addEventListener('keydown', (e) => {
-            // ESC cierra modales
             if (e.key === 'Escape') {
                 if (document.getElementById('share-modal').classList.contains('active')) {
                     hideShareModal();
                 }
             }
             
-            // F para fullscreen
             if (e.key === 'f' || e.key === 'F') {
                 if (!document.getElementById('share-modal').classList.contains('active')) {
                     toggleFullscreen();
@@ -449,9 +655,8 @@
         });
         
         // =====================================
-        // DEBUG: Simular fin de juego (remover en producción)
+        // DEBUG: Simular fin de juego
         // =====================================
-        // Para testear el modal, descomentar y llamar desde consola: simulateGameEnd()
         window.simulateGameEnd = function() {
             lastGameStats = {
                 score: 52500,
