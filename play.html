@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DELTA DAWN: Operación Caracas - JUGAR</title>
+    <meta name="theme-color" content="#000000">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .play-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+        
+        .game-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .game-title {
+            font-size: 1rem;
+            color: var(--secondary-yellow);
+            letter-spacing: 3px;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+            border: 3px solid var(--primary-red);
+        }
+        
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border: 2px solid var(--secondary-yellow);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .game-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .game-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .controls-left,
+        .controls-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .btn-icon {
+            padding: 8px 15px;
+            font-size: 0.85rem;
+        }
+        
+        /* Mobile Warning */
+        .mobile-warning {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            flex: 1;
+        }
+        
+        .mobile-warning h2 {
+            margin-bottom: 20px;
+        }
+        
+        .mobile-warning p {
+            color: var(--text-gray);
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) and (pointer: coarse) {
+            .mobile-warning {
+                display: flex;
+            }
+            
+            .game-wrapper {
+                display: none;
+            }
+        }
+        
+        /* Share Modal */
+        .share-content {
+            margin: 20px 0;
+        }
+        
+        .share-stats {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .share-stats .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .share-stats .stat-row:last-child {
+            border-bottom: none;
+        }
+        
+        .share-stats .stat-label {
+            color: var(--text-gray);
+        }
+        
+        .share-stats .stat-value {
+            color: var(--secondary-yellow);
+            font-weight: bold;
+        }
+        
+        .share-text {
+            background: #111;
+            padding: 15px;
+            font-size: 0.9rem;
+            color: var(--text-white);
+            margin: 15px 0;
+            word-break: break-all;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .copy-feedback {
+            color: var(--secondary-yellow);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .copy-feedback.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- AUDIO OVERLAY (aparece si ?autostart=1) -->
+    <div id="audio-overlay" class="audio-overlay hidden">
+        <h2 class="text-yellow blink">▶ CLICK PARA ACTIVAR AUDIO ◀</h2>
+        <p class="mt-20">El juego requiere interacción para reproducir sonido</p>
+    </div>
+    
+    <main class="play-page">
+        <!-- MOBILE WARNING -->
+        <div class="mobile-warning">
+            <h2 class="text-red">⚠ DISPOSITIVO NO COMPATIBLE ⚠</h2>
+            <p>
+                Este juego requiere teclado para jugar.<br>
+                Por favor accede desde una computadora.
+            </p>
+            <a href="/" class="btn btn-secondary">← VOLVER</a>
+        </div>
+        
+        <!-- GAME WRAPPER -->
+        <div class="game-wrapper">
+            <div class="game-header">
+                <span class="game-title">DELTA DAWN: OPERACIÓN CARACAS</span>
+                <span class="text-gray" style="font-size: 0.8rem;">ESC = Menú</span>
+            </div>
+            
+            <div class="game-container">
+                <iframe 
+                    id="game-iframe"
+                    src="game/index.html" 
+                    allow="autoplay; fullscreen"
+                    allowfullscreen
+                ></iframe>
+            </div>
+            
+            <div class="game-controls">
+                <div class="controls-left">
+                    <a href="/" class="btn btn-secondary btn-icon">← SALIR</a>
+                </div>
+                
+                <div class="controls-right">
+                    <button id="btn-share" class="btn btn-secondary btn-icon" onclick="showShareModal()">
+                        COMPARTIR
+                    </button>
+                    <button id="btn-fullscreen" class="btn btn-primary btn-icon" onclick="toggleFullscreen()">
+                        ⛶ PANTALLA COMPLETA
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- SHARE MODAL -->
+    <div id="share-modal" class="modal-overlay">
+        <div class="modal">
+            <button class="modal-close" onclick="hideShareModal()">×</button>
+            <h2 class="text-yellow">★ COMPARTÍ TU SCORE ★</h2>
+            
+            <div class="share-content">
+                <div class="share-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">SCORE:</span>
+                        <span class="stat-value" id="share-score">--</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">TIEMPO:</span>
+                        <span class="stat-value" id="share-time">--</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">RANK:</span>
+                        <span class="stat-value" id="share-rank">--</span>
+                    </div>
+                </div>
+                
+                <div class="share-text" id="share-text">
+                    🎮 DELTA DAWN: Operación Caracas
+                    Score: -- | Rank: --
+                    ¿Podés superarlo?
+                    🔗 [URL]
+                </div>
+                
+                <div class="share-buttons">
+                    <button class="btn btn-primary btn-small" onclick="copyShareText()">
+                        COPIAR TEXTO
+                    </button>
+                    <button class="btn btn-secondary btn-small" onclick="copyLink()">
+                        COPIAR LINK
+                    </button>
+                </div>
+                
+                <div id="copy-feedback" class="copy-feedback">¡Copiado!</div>
+            </div>
+            
+            <div class="mt-20">
+                <button class="btn btn-secondary btn-small" onclick="hideShareModal()">CERRAR</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const gameIframe = document.getElementById('game-iframe');
+        const audioOverlay = document.getElementById('audio-overlay');
+        
+        // Estado del último score (se actualiza via postMessage en el futuro)
+        let lastGameStats = {
+            score: 0,
+            time: '0:00',
+            rank: '-',
+            kills: 0,
+            accuracy: 0
+        };
+        
+        // =====================================
+        // AUTOSTART HANDLING
+        // =====================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const autostart = urlParams.get('autostart') === '1';
+        
+        if (autostart) {
+            audioOverlay.classList.remove('hidden');
+        }
+        
+        audioOverlay.addEventListener('click', () => {
+            audioOverlay.classList.add('hidden');
+            focusGame();
+        });
+        
+        // =====================================
+        // FULLSCREEN
+        // =====================================
+        function toggleFullscreen() {
+            const container = document.querySelector('.game-container');
+            
+            if (!document.fullscreenElement) {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+        
+        document.addEventListener('fullscreenchange', () => {
+            const btn = document.getElementById('btn-fullscreen');
+            if (document.fullscreenElement) {
+                btn.textContent = '⛶ SALIR FULLSCREEN';
+            } else {
+                btn.textContent = '⛶ PANTALLA COMPLETA';
+            }
+        });
+        
+        // =====================================
+        // FOCUS GAME
+        // =====================================
+        function focusGame() {
+            gameIframe.focus();
+            // Enviar mensaje al juego para que tome focus
+            gameIframe.contentWindow.postMessage({ type: 'DD:FOCUS' }, '*');
+        }
+        
+        // Auto-focus al cargar
+        window.addEventListener('load', () => {
+            if (!autostart) {
+                setTimeout(focusGame, 500);
+            }
+        });
+        
+        // Re-focus cuando se hace click en el contenedor
+        document.querySelector('.game-container').addEventListener('click', focusGame);
+        
+        // =====================================
+        // POST MESSAGE LISTENER (para futuro)
+        // =====================================
+        window.addEventListener('message', (event) => {
+            // Verificar origen si es necesario
+            // if (event.origin !== 'expected-origin') return;
+            
+            const data = event.data;
+            
+            if (data && data.type === 'DD:RUN_END') {
+                // Juego terminado - actualizar stats y mostrar modal
+                lastGameStats = data.stats || lastGameStats;
+                updateShareModal();
+                showShareModal();
+            }
+            
+            if (data && data.type === 'DD:GAME_STARTED') {
+                console.log('Juego iniciado');
+            }
+        });
+        
+        // =====================================
+        // SHARE MODAL
+        // =====================================
+        function showShareModal() {
+            updateShareModal();
+            document.getElementById('share-modal').classList.add('active');
+        }
+        
+        function hideShareModal() {
+            document.getElementById('share-modal').classList.remove('active');
+            focusGame();
+        }
+        
+        function updateShareModal() {
+            document.getElementById('share-score').textContent = lastGameStats.score.toLocaleString();
+            document.getElementById('share-time').textContent = lastGameStats.time;
+            document.getElementById('share-rank').textContent = lastGameStats.rank;
+            
+            const shareText = `🎮 DELTA DAWN: Operación Caracas
+📊 Score: ${lastGameStats.score.toLocaleString()} | Rank: ${lastGameStats.rank}
+⏱️ Tiempo: ${lastGameStats.time}
+¿Podés superarlo?
+🔗 ${window.location.origin}/play`;
+            
+            document.getElementById('share-text').textContent = shareText;
+        }
+        
+        function copyShareText() {
+            const text = document.getElementById('share-text').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showCopyFeedback();
+            });
+        }
+        
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.origin + '/play').then(() => {
+                showCopyFeedback();
+            });
+        }
+        
+        function showCopyFeedback() {
+            const feedback = document.getElementById('copy-feedback');
+            feedback.classList.add('show');
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 2000);
+        }
+        
+        // =====================================
+        // KEYBOARD SHORTCUTS
+        // =====================================
+        document.addEventListener('keydown', (e) => {
+            // ESC cierra modales
+            if (e.key === 'Escape') {
+                if (document.getElementById('share-modal').classList.contains('active')) {
+                    hideShareModal();
+                }
+            }
+            
+            // F para fullscreen
+            if (e.key === 'f' || e.key === 'F') {
+                if (!document.getElementById('share-modal').classList.contains('active')) {
+                    toggleFullscreen();
+                }
+            }
+        });
+        
+        // =====================================
+        // DEBUG: Simular fin de juego (remover en producción)
+        // =====================================
+        // Para testear el modal, descomentar y llamar desde consola: simulateGameEnd()
+        window.simulateGameEnd = function() {
+            lastGameStats = {
+                score: 52500,
+                time: '2:45',
+                rank: 'A',
+                kills: 20,
+                accuracy: 78
+            };
+            showShareModal();
+        };
+    </script>
+</body>
+</html>

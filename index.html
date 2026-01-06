@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DELTA DAWN: Operación Caracas</title>
+    <meta name="description" content="Caracas, 2019. Una operación encubierta para capturar al dictador. Juego de acción arcade estilo run & gun.">
+    <meta name="theme-color" content="#000000">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="DELTA DAWN: Operación Caracas">
+    <meta property="og:description" content="Caracas, 2019. Una operación encubierta para capturar al dictador.">
+    <meta property="og:type" content="website">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .landing-hero {
+            text-align: center;
+            max-width: 800px;
+        }
+        
+        .landing-logo {
+            margin-bottom: 10px;
+        }
+        
+        .landing-logo .delta {
+            font-size: 1rem;
+            color: var(--text-gray);
+            letter-spacing: 8px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .landing-logo h1 {
+            font-size: 3rem;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+        
+        .landing-subtitle {
+            font-size: 1.5rem;
+            color: var(--primary-red);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px var(--glow-red);
+        }
+        
+        .landing-briefing {
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 3px solid var(--primary-red);
+            padding: 20px 25px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .landing-briefing .label {
+            color: var(--secondary-yellow);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+        
+        .landing-briefing p {
+            color: var(--text-white);
+            line-height: 1.6;
+        }
+        
+        .landing-briefing .classified {
+            color: var(--primary-red);
+            font-weight: bold;
+        }
+        
+        .landing-actions {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .landing-actions .btn-primary {
+            font-size: 1.5rem;
+            padding: 20px 60px;
+        }
+        
+        .landing-links {
+            margin-top: 30px;
+            display: flex;
+            gap: 30px;
+        }
+        
+        .landing-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            transition: color 0.2s;
+        }
+        
+        .landing-links a:hover {
+            color: var(--secondary-yellow);
+        }
+        
+        .insert-coin {
+            margin-top: 50px;
+            color: var(--secondary-yellow);
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+        }
+        
+        .credits {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+        
+        @media (max-width: 768px) {
+            .landing-logo h1 {
+                font-size: 2rem;
+            }
+            
+            .landing-subtitle {
+                font-size: 1rem;
+                letter-spacing: 3px;
+            }
+            
+            .landing-actions .btn-primary {
+                font-size: 1.2rem;
+                padding: 15px 40px;
+            }
+            
+            .landing-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <div class="landing-hero">
+            <!-- LOGO -->
+            <div class="landing-logo flicker">
+                <span class="delta">▼ DELTA FORCE ▼</span>
+                <h1>DELTA DAWN</h1>
+            </div>
+            <div class="landing-subtitle">Operación Caracas</div>
+            
+            <!-- BRIEFING -->
+            <div class="landing-briefing box">
+                <div class="label">/// BRIEFING CLASIFICADO ///</div>
+                <p>
+                    <span class="classified">CARACAS, ENERO 2019.</span><br>
+                    Una célula de operativos Delta ha sido desplegada en territorio hostil. 
+                    Objetivo: infiltrar el complejo, neutralizar la resistencia cubana 
+                    y <span class="classified">CAPTURAR AL DICTADOR</span> para extracción.
+                </p>
+            </div>
+            
+            <!-- ACTIONS -->
+            <div class="landing-actions">
+                <a href="/play" class="btn btn-primary pulse">
+                    INICIAR MISIÓN
+                </a>
+                
+                <div class="landing-links">
+                    <a href="/hall">★ HALL OF FAME ★</a>
+                    <a href="#controles" onclick="showControls()">CONTROLES</a>
+                </div>
+            </div>
+            
+            <!-- INSERT COIN -->
+            <div class="insert-coin blink">
+                [ PRESIONA PARA COMENZAR ]
+            </div>
+        </div>
+    </main>
+    
+    <!-- CREDITS -->
+    <div class="credits">
+        © 2025 DELTA DAWN  ·  ARCADE ACTION GAME  ·  INSPIRED BY TRUE EVENTS
+    </div>
+    
+    <!-- MODAL CONTROLES -->
+    <div id="controls-modal" class="modal-overlay">
+        <div class="modal">
+            <button class="modal-close" onclick="hideControls()">×</button>
+            <h2 class="text-yellow">CONTROLES</h2>
+            
+            <div style="text-align: left; margin-top: 20px;">
+                <table>
+                    <tr>
+                        <td class="text-yellow">← →</td>
+                        <td>Mover</td>
+                    </tr>
+                    <tr>
+                        <td class="text-yellow">↑</td>
+                        <td>Saltar</td>
+                    </tr>
+                    <tr>
+                        <td class="text-yellow">Z / SPACE</td>
+                        <td>Disparar</td>
+                    </tr>
+                    <tr>
+                        <td class="text-yellow">X</td>
+                        <td>Granada</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="mt-20">
+                <button class="btn btn-secondary btn-small" onclick="hideControls()">CERRAR</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showControls() {
+            document.getElementById('controls-modal').classList.add('active');
+        }
+        
+        function hideControls() {
+            document.getElementById('controls-modal').classList.remove('active');
+        }
+        
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') hideControls();
+            
+            // Cualquier tecla lleva al juego (estilo arcade)
+            if (!document.getElementById('controls-modal').classList.contains('active')) {
+                if (['Enter', ' ', 'z', 'Z'].includes(e.key)) {
+                    window.location.href = '/play';
+                }
+            }
+        });
+        
+        // Click en cualquier lugar lleva al juego
+        document.querySelector('.insert-coin').addEventListener('click', () => {
+            window.location.href = '/play';
+        });
+    </script>
+</body>
+</html>
