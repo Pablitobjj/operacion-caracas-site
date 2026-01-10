@@ -786,6 +786,175 @@ function renderMiniHighscores() {
     container.innerHTML = html;
 }
 
+// ==========================================
+// CINEMATIC SCENE (Insertar ANTES de GameScene)
+// ==========================================
+
+const CINEMATIC_CONFIG = {
+    assetsPath: 'assets/', // Ajustado para coincidir con tu index.html
+    targetHeightPct: 0.70,
+    trumpScaleMod: 0.90,
+    maduroPosX: 0.70,
+    textSpeed: 30
+};
+
+class CinematicScene extends Phaser.Scene {
+    constructor() { super({ key: 'CinematicScene' }); }
+
+    preload() {
+        // UI Carga
+        const w = this.cameras.main.width;
+        const h = this.cameras.main.height;
+        const bar = this.add.graphics();
+        this.load.on('progress', val => {
+            bar.clear().fillStyle(0x00ff00, 1).fillRect(w/2 - 150, h/2 - 2, 300 * val, 4);
+        });
+
+        // Assets
+        this.load.setPath(CINEMATIC_CONFIG.assetsPath);
+        // Personajes (Usamos nombres cortos para el script)
+        this.load.image('trump_accuse', 'trump_pointing_finger_accuse.png');
+        this.load.image('trump_sad', 'trump_disappointed.png');
+        this.load.image('trump_warn', 'trump_serious_warning.png');
+        this.load.image('trump_conf', 'trump_confident.png');
+        this.load.image('trump_grin', 'trump_victorious_confident_grin.png');
+        this.load.image('trump_smirk', 'trump_sacrastic_smirk.png');
+
+        this.load.image('maduro_angry', 'maduro_shouting_angry.png');
+        this.load.image('maduro_mock', 'maduro_arrogant_mouth_open.png');
+        this.load.image('maduro_smug', 'maduro_confident_arrogant.png');
+        this.load.image('maduro_yell', 'maduro_shouting_pointingfinger_mouth_open.png');
+        this.load.image('maduro_rage', 'maduro_rage.png');
+        
+        this.load.image('bg_cinematic', 'background.png'); // Nombre único para no chocar
+    }
+
+    create() {
+        const w = this.scale.width;
+        const h = this.scale.height;
+
+        // Fondo
+        if(this.textures.exists('bg_cinematic')) {
+            this.add.image(w/2, h/2, 'bg_cinematic').setDisplaySize(w, h).setTint(0x444444);
+        } else {
+            this.add.rectangle(0, 0, w, h, 0x111111).setOrigin(0);
+        }
+
+        // Setup Actores
+        this.baseHeight = h * CINEMATIC_CONFIG.targetHeightPct;
+        
+        this.charL = this.add.image(w * 0.25, h, 'trump_conf').setOrigin(0.5, 1).setAlpha(0).setDepth(10);
+        this.charR = this.add.image(w * CINEMATIC_CONFIG.maduroPosX, h, 'maduro_smug').setOrigin(0.5, 1).setAlpha(0).setDepth(10);
+
+        // Idle Animation
+        this.tweens.add({
+            targets: [this.charL, this.charR],
+            y: h + 10, duration: 2000, yoyo: true, repeat: -1, ease: 'Sine.easeInOut'
+        });
+
+        // UI Diálogo
+        const boxY = h - 180;
+        this.dialogBox = this.add.rectangle(w/2, boxY + 80, w * 0.95, 160, 0x000000, 0.85).setStrokeStyle(3, 0xffffff).setDepth(20);
+        this.txtName = this.add.text(w * 0.05, boxY + 20, '', { fontFamily: 'monospace', fontSize: '26px', fontStyle: 'bold' }).setDepth(21);
+        this.txtMsg = this.add.text(w * 0.05, boxY + 60, '', { fontFamily: 'monospace', fontSize: '22px', color: '#eeeeee', wordWrap: { width: w * 0.9 } }).setDepth(21);
+        this.txtSkip = this.add.text(w * 0.95, h - 30, 'CLICK ▼', { fontFamily: 'monospace', fontSize: '14px', color: '#00ff00' }).setOrigin(1).setDepth(21).setVisible(false);
+        
+        this.tweens.add({ targets: this.txtSkip, alpha: 0, duration: 500, yoyo: true, repeat: -1 });
+
+        // Guion
+        this.script = [
+            { s:"PRESIDENTE", t:"¡Comandante! Hace años hicimos un deal: tu petróleo por paz. ¿Por qué lo rechazás ahora?", side:"L", c:"#ffaa00", i:"trump_accuse" },
+            { s:"EL GENERAL", t:"¿Deal? ¡Ja! ¡Tus sanciones yanquis nos robaron todo! ¡Socialismo o muerte!", side:"R", c:"#ff3333", shake:true, i:"maduro_angry" },
+            { s:"PRESIDENTE", t:"Chávez prometió un paraíso, pero mirá Caracas: colas eternas, hambre y apagones sin fin.", side:"L", c:"#ffaa00", i:"trump_sad" },
+            { s:"EL GENERAL", t:"¡Fake news gringas! Expropiamos las fábricas... ¡y ahora producen solo aire! ¡Patria soberana!", side:"R", c:"#ff3333", i:"maduro_mock" },
+            { s:"PRESIDENTE", t:"Las elecciones fueron robadas. El mundo lo sabe: Guaidó era el legítimo. ¡Ríndete ya!", side:"L", c:"#ffaa00", i:"trump_warn" },
+            { s:"EL GENERAL", t:"¿Guaidó? ¡Ese títere de CNN! Nosotros ganamos con el 99%. ¡Democracia popular!", side:"R", c:"#ff3333", shake:true, i:"maduro_smug" },
+            { s:"PRESIDENTE", t:"Tu revolución trajo hiperinflación y clínicas sin luz. ¡Hasta tus milicias están desertando!", side:"L", c:"#ffaa00", i:"trump_conf" },
+            { s:"EL GENERAL", t:"¡Los yanquis capitalistas nos odian! Quieren fronteras abiertas y locuras... ¡Nosotros defendemos la familia y la Navidad en Octubre!", side:"R", c:"#ff3333", i:"maduro_yell" },
+            { s:"PRESIDENTE", t:"Última chance: paz por un traspaso pacífico. Si no, Delta Dawn llega a Caracas.", side:"L", c:"#ffaa00", i:"trump_warn" },
+            { s:"EL GENERAL", t:"¡Venga, cobarde! ¡Patria o Muerte! ¡Expropio tu flota entera!", side:"R", c:"#ff3333", shake:true, i:"maduro_rage" },
+            { s:"PRESIDENTE", t:"Se acabó, General. ¡Operación Caracas inicia ahora!", side:"L", c:"#ffaa00", i:"trump_grin" }
+        ];
+
+        this.idx = 0;
+        this.isTyping = false;
+        this.nextDialog();
+
+        // Inputs
+        this.input.on('pointerdown', () => this.handleInput());
+        this.input.keyboard.on('keydown-SPACE', () => this.handleInput());
+        this.input.keyboard.on('keydown-ENTER', () => this.handleInput());
+    }
+
+    handleInput() {
+        if (this.isTyping) {
+            this.typingTimer.remove();
+            this.txtMsg.setText(this.script[this.idx].t);
+            this.isTyping = false;
+            this.txtSkip.setVisible(true);
+        } else {
+            this.idx++;
+            if (this.idx < this.script.length) this.nextDialog();
+            else this.endScene();
+        }
+    }
+
+    nextDialog() {
+        const d = this.script[this.idx];
+        const isLeft = d.side === 'L';
+        
+        this.txtName.setText(d.s).setColor(d.c);
+        this.txtMsg.setText('');
+        this.dialogBox.setStrokeStyle(3, parseInt(d.c.replace('#', '0x')));
+        this.txtSkip.setVisible(false);
+
+        const active = isLeft ? this.charL : this.charR;
+        const passive = isLeft ? this.charR : this.charL;
+
+        if (this.textures.exists(d.i)) {
+            active.setTexture(d.i);
+            let scale = this.baseHeight / active.height;
+            if (isLeft) scale *= CINEMATIC_CONFIG.trumpScaleMod;
+            active.setScale(scale);
+        }
+
+        active.setDepth(15).clearTint();
+        this.tweens.add({ targets: active, alpha: 1, x: isLeft ? this.scale.width*0.25 : this.scale.width*CINEMATIC_CONFIG.maduroPosX, duration: 400, ease: 'Back.out' });
+        
+        passive.setDepth(10).setTint(0x555555);
+        this.tweens.add({ targets: passive, alpha: 0.6, x: isLeft ? this.scale.width*CINEMATIC_CONFIG.maduroPosX + 50 : this.scale.width*0.25 - 50, duration: 400 });
+
+        if (d.shake) {
+            this.cameras.main.shake(300, 0.005);
+            active.setTint(0xffaaaa);
+        }
+
+        this.isTyping = true;
+        let charIdx = 0;
+        this.typingTimer = this.time.addEvent({
+            delay: CINEMATIC_CONFIG.textSpeed,
+            repeat: d.t.length - 1,
+            callback: () => {
+                this.txtMsg.text += d.t[charIdx];
+                charIdx++;
+                if (charIdx === d.t.length) {
+                    this.isTyping = false;
+                    this.txtSkip.setVisible(true);
+                }
+            }
+        });
+    }
+
+    endScene() {
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
+        this.time.delayedCall(1500, () => {
+            // === TRANSICIÓN CLAVE ===
+            // Aquí arrancamos el juego principal
+            this.scene.start('GameScene'); 
+        });
+    }
+}
+
 class GameScene extends Phaser.Scene {
     constructor() { 
         super({ key: 'GameScene' }); 
@@ -3425,7 +3594,7 @@ const config = {
             fps: 60
         }
     },
-    scene: GameScene
+    scene: [CinematicScene, GameScene]
 };
 
 // PROTECCIÓN: Evitar doble inicialización (problema con hot reload)
